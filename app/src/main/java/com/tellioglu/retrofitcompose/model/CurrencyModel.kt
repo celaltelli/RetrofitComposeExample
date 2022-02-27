@@ -1,19 +1,17 @@
 package com.tellioglu.retrofitcompose.model
 
 import com.google.gson.annotations.SerializedName
-import com.tellioglu.retrofitcompose.model.CurrencyModel.CurrrencyMod
-import com.tellioglu.retrofitcompose.model.DeveloperModel
 import java.util.ArrayList
 
 class CurrencyModel {
     @SerializedName("TCMB_AnlikKurBilgileri")
-    var currrencyModList: List<CurrrencyMod> = ArrayList()
+    var currencyModList: List<CurrencyMod> = ArrayList()
 
     @SerializedName("Developer")
     var developer = DeveloperModel()
 
     //"TCMB_AnlikKurBilgileri":[{"Isim":"ABD DOLARI","CurrencyName":"US DOLLAR","ForexBuying":13.4287,"ForexSelling":13.4529,"BanknoteBuying":13.4193,"BanknoteSelling":13.4731,"CrossRateUSD":"","CrossRateOther":""}
-    inner class CurrrencyMod {
+    inner class CurrencyMod {
         @SerializedName("Isim")
         var name: String? = null
 

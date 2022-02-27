@@ -2,12 +2,15 @@ package com.tellioglu.retrofitcompose.view
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -15,7 +18,8 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
-import com.tellioglu.retrofitcompose.ui.theme.RetrofitComposeTheme
+import com.tellioglu.retrofitcompose.ui.theme.*
+import kotlinx.coroutines.launch
 
 class TabbedActivity : ComponentActivity() {
 
@@ -31,11 +35,11 @@ class TabbedActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = Color.LightGray
+                    color = Alabaster
                 ) {
-                    Scaffold(topBar = {AppBar()},) {
+                    Scaffold(topBar = {AppBar()}, backgroundColor = Alabaster) {
 
-                        tabBar()
+                        TabBar()
 
                      }
 
@@ -46,28 +50,38 @@ class TabbedActivity : ComponentActivity() {
 
     @ExperimentalPagerApi
     @Composable
-    fun tabBar(){
-        var state by remember { mutableStateOf(0) }
-        val titles = listOf("Currencies", "CryptoCurrencies", )
+    fun TabBar(){
+        val titles = listOf("Döviz", "Kripto Paralar", )
         val pagerState = rememberPagerState()
+        val scope = rememberCoroutineScope()
 
-        Column {
-            TabRow(selectedTabIndex = state,
+
+
+        Column (modifier = Modifier.background(color =Alabaster)){
+            TabRow(selectedTabIndex = pagerState.currentPage,
                 indicator = { tabPositions -> // 3.
                     TabRowDefaults.Indicator(
                         Modifier.pagerTabIndicatorOffset(
                             pagerState,
                             tabPositions
-                        )
+                        ).border(BorderStroke(3.dp,Color.Red)),color = Alabaster
                     )
                 }
 
             ) {
                 titles.forEachIndexed { index, title ->
                     Tab(
-                        text = { Text(title) },
-                        selected = state == index,
-                        onClick = { state = index }
+                        text = { Text(title, fontWeight = FontWeight.Bold )},
+                        selected = pagerState.currentPage == index,
+                        onClick = {
+                            scope.launch {
+                                pagerState.scrollToPage(index)
+                            }
+                              },
+                       unselectedContentColor = BlueMunsell,
+                        selectedContentColor = Color.Black,
+                        modifier = Modifier.background(color = Alabaster)
+                            .border(BorderStroke(1.dp, Bone) ).padding(2.dp)
                     )
                 }
             }
@@ -114,7 +128,7 @@ class TabbedActivity : ComponentActivity() {
     fun DefaultPreview() {
         RetrofitComposeTheme {
 
-            tabBar()
+            TabBar()
         }
     }
 
