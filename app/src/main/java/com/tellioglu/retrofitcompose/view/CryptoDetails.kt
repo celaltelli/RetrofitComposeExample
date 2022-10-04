@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.tellioglu.retrofitcompose.model.CryptoItem
 import com.tellioglu.retrofitcompose.ui.theme.Alabaster
@@ -54,7 +55,8 @@ fun CryptoDetailScreen(id:String,price:String,)
                         textAlign = TextAlign.Center
                     )
 
-                    Image(painter = rememberImagePainter(data = selectedCrypto.logo_url),
+                    Image(
+                        painter = rememberAsyncImagePainter(model = selectedCrypto.logo_url),
                         contentDescription = selectedCrypto.name,
                         modifier = Modifier
                             .padding(16.dp)

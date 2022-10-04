@@ -19,18 +19,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.tellioglu.retrofitcompose.model.CryptoItem
 import com.tellioglu.retrofitcompose.model.CryptoModel
-import com.tellioglu.retrofitcompose.model.CurrencyModel
 import com.tellioglu.retrofitcompose.ui.theme.Alabaster
 import com.tellioglu.retrofitcompose.ui.theme.BlueMunsell
 import com.tellioglu.retrofitcompose.ui.theme.GlowIndicator
 import com.tellioglu.retrofitcompose.ui.theme.RetrofitComposeTheme
 import kotlinx.coroutines.delay
-import kotlin.random.Random
 
 @Composable
 fun CryptoScreen(cryptoModelList: List<CryptoModel>) {
@@ -150,7 +149,7 @@ fun CryptoRow (cryptoModel: CryptoModel) {
                   )
 
                   Image(
-                      painter = rememberImagePainter(data = selectedCrypto.logo_url),
+                      painter = rememberAsyncImagePainter(model = selectedCrypto.logo_url),
                       contentDescription = selectedCrypto.name,
                       modifier = Modifier
                           .padding(16.dp)
@@ -178,12 +177,12 @@ fun CryptoRow (cryptoModel: CryptoModel) {
               modifier = Modifier
                   .fillMaxSize()
           ) {
-              Column {
+              Column (Modifier.background(color = Alabaster)) {
 
 
                   Text(text = MyViewModel.errorMessage,
                       style = MaterialTheme.typography.h6,
-                      modifier = Modifier.padding(2.dp),
+                      modifier = Modifier.padding(2.dp).fillMaxWidth(),
                       fontWeight = FontWeight.Bold,
                       color = BlueMunsell,
                       textAlign = TextAlign.Center
